@@ -142,7 +142,7 @@ public final class QueryUtils {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(bookJSON)) {
             return null;
-    }
+        }
 
         // Create an empty ArrayList that we can start adding books to
         List<Book> books = new ArrayList<>();
@@ -210,9 +210,9 @@ public final class QueryUtils {
                 }
 
                 // Extract the value for the key called "publishedDate" if it exists
-                String date = "";
+                String date;
                 if (volumeInfo.has("publishedDate")) {
-                date = volumeInfo.optString("publishedDate");
+                    date = volumeInfo.optString("publishedDate");
                 } else {
                     date = "No date";
                 }
@@ -233,5 +233,4 @@ public final class QueryUtils {
         // Return the list of books
         return books;
     }
-
 }

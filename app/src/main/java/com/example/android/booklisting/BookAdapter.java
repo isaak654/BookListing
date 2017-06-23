@@ -50,7 +50,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
         // Get the {@link Book} object located at this position in the list
         Book currentBook = getItem(position);
 
-
         // Find the TextView with view ID title
         TextView titleView = (TextView) listItemView.findViewById(R.id.title);
         // Display the title of the current book in that TextView
@@ -65,7 +64,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         String dateObject = (currentBook.getDate());
 
         // Split the date string in more parts
-        String [] parts = dateObject.split("-");
+        String[] parts = dateObject.split("-");
 
         // Display only the year part of the current book
         dateObject = parts[0];
@@ -78,14 +77,4 @@ public class BookAdapter extends ArrayAdapter<Book> {
         // Return the whole list item layout that is now showing the appropriate data
         return listItemView;
     }
-
-    /**
-     * Return the formatted date (i.e. "2007") from a Date object.
-
-    private String formatDate(Date dateObject) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy", Locale.US);
-        return dateFormat.format(dateObject);
-    }
-     */
-
 }

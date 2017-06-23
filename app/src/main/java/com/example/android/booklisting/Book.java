@@ -9,21 +9,27 @@ public class Book {
     //Title of the book
     private String mTitle;
 
-    /** Author of the book */
+    /**
+     * Author of the book
+     */
     private String mAuthor;
 
-    /** URL of the book */
+    /**
+     * URL of the book
+     */
     private String mUrl;
 
-    /** Date of the book */
+    /**
+     * Date of the book
+     */
     private String mDate;
 
     /**
      * Constructs a new {@link Book} object.
      *
-     * @param title is the title of the book
+     * @param title  is the title of the book
      * @param author is the author of the book
-     * @param url is the URL of the book
+     * @param url    is the URL of the book
      */
     public Book(String title, String author, String url, String date) {
         mTitle = title;
@@ -31,7 +37,6 @@ public class Book {
         mUrl = url;
         mDate = date;
     }
-
 
     /**
      * Returns the title of the book
