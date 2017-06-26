@@ -129,6 +129,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                     // Update empty state with no connection error message
                     mEmptyStateTextView.setText(R.string.no_internet_connection);
+
+                    // Clear the adapter of previous books data
+                    mAdapter.clear();
                 }
                 return false;
             }
