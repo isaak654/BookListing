@@ -33,6 +33,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
 
     public static final String LOG_TAG = MainActivity.class.getName();
@@ -100,13 +101,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        // Get a reference to the ConnectivityManager to check state of network connectivity
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        // Get details on the currently active default data network
-        final NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
         //Get the SearchView and enable the Submit Button on it
         searchView = (SearchView) findViewById(R.id.search_view);
         searchView.setSubmitButtonEnabled(true);
@@ -121,16 +115,27 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public boolean onQueryTextSubmit(String newText) {
-                //Get the query given by the user
-                mQuery = searchView.getQuery().toString();
-                //Restart the Loader upon the search query(execute the search)
-                getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
+                if (isConnected()) {
+                    //Get the query given by the user
+                    mQuery = searchView.getQuery().toString();
+                    //Restart the Loader upon the search query(execute the search)
+                    getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
+                } else {
+
+                    // Otherwise, display error
+                    // First, hide loading indicator so error message will be visible
+                    View loadingIndicator = findViewById(R.id.loading_indicator);
+                    loadingIndicator.setVisibility(View.GONE);
+
+                    // Update empty state with no connection error message
+                    mEmptyStateTextView.setText(R.string.no_internet_connection);
+                }
                 return false;
             }
         });
 
         // If there is a network connection, fetch data
-        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+        if (isConnected()) {
 
             //Default search key when you open the app for the first time.
             searchView.setQuery("Java", true);
@@ -153,6 +158,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             // Update empty state with no connection error message
             mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
+    }
+
+    // Helper method to check network connection
+    public boolean isConnected() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnectedOrConnecting());
     }
 
 
@@ -188,4 +200,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
     }
+
+
+
 }

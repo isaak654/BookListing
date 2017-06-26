@@ -52,11 +52,8 @@ public final class QueryUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of {@link Book}s
-        List<Book> books = extractBookFromJson(jsonResponse);
-
         // Return the list of {@link Book}s
-        return books;
+        return extractBookFromJson(jsonResponse);
     }
 
     /**
@@ -85,10 +82,13 @@ public final class QueryUtils {
 
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
+        int connectionReadTimeout = 10000; /* milliseconds */
+        int connectionTimeout = 15000; /* milliseconds */
+
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setReadTimeout(connectionReadTimeout);
+            urlConnection.setConnectTimeout(connectionTimeout);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
